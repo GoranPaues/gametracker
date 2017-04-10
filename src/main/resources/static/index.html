@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="Demo Site for Oracle Meetup 18 April 2017" />
+        <meta name="author" content="Göran Paues" />
+
+        <title>Demo Site for Oracle Meetup 18 April 2017</title>
+
+        <link href="/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="/css/demo.css" rel="stylesheet" />
+
+        <script type="text/javascript" src="/js/jquery-2.2.2.min.js"></script>
+        <script type="text/javascript" src="/js/ansi_up.js"></script>
+
+        <script>
+            $(document).ready(function () {
+                $.get('/api/banner', function (data) {
+                    $('.banner').each(function () {
+                        $(this).html(ansi_up.ansi_to_html(data));
+                    });
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header clearfix">
+                <h3 class="text-muted">Oracle Meetup 18 April 2017<br />
+                    Demo showing how a Spring Boot app <br>
+                    can apply database changes with Flyway.</h3>
+            </div>
+            <div class="row">
+
+                <div class="col-lg-6">
+                    <h4><a href="http://projects.spring.io/spring-boot/">Spring Boot</a></h4>
+                    <blockquote>
+                        <p>
+                            Spring Boot makes it easy to create <strong>stand-alone, production-grade Spring based Applications</strong> that you can "just run". We take an opinionated view of the Spring platform and third-party libraries so you can get started with minimum fuss. Most Spring Boot applications need very little Spring configuration.
+                        </p>
+                    </blockquote>
+                </div>
+
+                <div class="col-lg-6">
+                    <h4><a href="http://flywaydb.org">Flyway</a></h4>
+                    <blockquote>
+                        <p>
+                            <strong>Database migrations made easy!</strong>
+                            Evolve your Database Schema easily and reliably across all your instances. Plain SQL scripts (incl. placeholder replacement). No proprietary XML formats, no lock-in.
+                        </p>
+                    </blockquote>
+                </div>
+
+            </div>
+
+            <footer class="footer">
+                <p>&copy; 2017 <a href="http://guran.com">Göran Paues</a></p>
+            </footer>
+        </div>
+    </body>
+</html>
