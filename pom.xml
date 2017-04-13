@@ -76,6 +76,9 @@
 								<wait>
 									<log>DATABASE IS READY TO USE!</log>
 									<time>3600000</time>
+									<exec>
+											<postStart>/var/tmp/scripts/initdb.sh</postStart>
+									</exec>
 								</wait>
 							</run>
 						</image>
