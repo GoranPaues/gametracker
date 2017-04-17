@@ -93,7 +93,7 @@
 									<log>DATABASE IS READY TO USE!</log>
 									<time>3600000</time>
 									<exec>
-											<postStart>/var/tmp/scripts/initdb.sh</postStart>
+										<postStart>/var/tmp/scripts/initdb.sh</postStart>
 									</exec>
 								</wait>
 							</run>
@@ -130,16 +130,16 @@
 			</plugin>
 		</plugins>
 		<resources>
-						<resource>
-										<directory>src/main/resources</directory>
-						</resource>
-						<resource>
-										<directory>src/main/resources</directory>
-										<filtering>true</filtering>
-										<includes>
-														<include>application.properties</include>
-										</includes>
-						</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+					<filtering>true</filtering>
+					<includes>
+						<include>application.properties</include>
+					</includes>
+				</resource>
 		</resources>
 	</build>
 
