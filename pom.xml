@@ -22,6 +22,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+		<flyway.version>4.1.2</flyway.version>
     <oracle.version>12.2.0.1</oracle.version>
 		<db.url>jdbc:oracle:thin:@//localhost:1521/ORCLPDB1</db.url>
 		<db.username>gametracker</db.username>
@@ -49,6 +50,11 @@
 						<groupId>com.oracle.jdbc</groupId>
 						<artifactId>orai18n</artifactId>
 						<version>${oracle.version}</version>
+		</dependency>
+		<dependency>
+				<groupId>org.flywaydb</groupId>
+				<artifactId>flyway-core</artifactId>
+				<version>${flyway.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -93,6 +99,33 @@
 							</run>
 						</image>
 					</images>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.flywaydb</groupId>
+				<artifactId>flyway-maven-plugin</artifactId>
+				<version>${flyway.version}</version>
+				<!-- Note that we're executing the Flyway
+			                                plugin in the "generate-sources" phase -->
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>migrate</goal>
+						</goals>
+					</execution>
+				</executions>
+				<!-- Note that we need to prefix the db/migration
+			                                path with filesystem: to prevent Flyway
+			                                from looking for our migration scripts
+			                                only on the classpath -->
+				<configuration>
+					<url>${db.url}</url>
+					<user>${db.username}</user>
+					<password>${db.password}</password>
+					<locations>
+						<location>filesystem:src/main/resources/db/migration</location>
+					</locations>
 				</configuration>
 			</plugin>
 		</plugins>
