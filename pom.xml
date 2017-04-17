@@ -22,6 +22,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+    <oracle.version>12.2.0.1</oracle.version>
 	</properties>
 
 	<dependencies>
@@ -36,9 +37,14 @@
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<scope>runtime</scope>
+						<groupId>com.oracle.jdbc</groupId>
+						<artifactId>ojdbc7</artifactId>
+						<version>${oracle.version}</version>
+		</dependency>
+		<dependency>
+						<groupId>com.oracle.jdbc</groupId>
+						<artifactId>orai18n</artifactId>
+						<version>${oracle.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
