@@ -3,6 +3,8 @@ CREATE OR REPLACE PROCEDURE gametracker.import_games AS
     l_game_id          games.id%TYPE;
     l_shelf_id         shelves.id%TYPE;
     l_platform_id      platforms.id%TYPE;
+    l_time_played      games.time_played%TYPE;
+    l_release_date     games.release_date%TYPE;
     l_date_added       DATE;
     l_shelves_obj      json_object_t;
     l_shelves_list     json_key_list;
@@ -18,11 +20,36 @@ BEGIN
     ) LOOP
     
         /* MERGE GAME INFO */
+        l_time_played := JSON_VALUE ( rc.dates,'$.seconds_played' );
+        IF
+            length(rc.release_date) = 10
+        THEN
+            l_release_date := TO_DATE(
+                rc.release_date,
+                'yyyy-mm-dd'
+            );
+        ELSIF length(rc.release_date) = 7 THEN
+            l_release_date := TO_DATE(
+                rc.release_date,
+                'yyyy-mm'
+            );
+        ELSIF length(rc.release_date) = 4 THEN
+            l_release_date := TO_DATE(
+                rc.release_date,
+                'yyyy'
+            );
+        ELSE
+            l_release_date := NULL;
+        END IF;
+
         UPDATE games
             SET
                 rating = rc.rating,
                 review = rc.review,
-                time_played = JSON_VALUE(rc.dates,'$.seconds_played')
+                time_played = l_time_played,
+                release_date = l_release_date,
+                grouvee_url = rc.url,
+                giantbomb_id = rc.giantbomb_id
         WHERE
             name = rc.name
         RETURNING id INTO l_game_id;
@@ -34,12 +61,18 @@ BEGIN
                 name,
                 rating,
                 review,
-                time_played
+                time_played,
+                release_date,
+                grouvee_url,
+                giantbomb_id
             ) VALUES (
                 rc.name,
                 rc.rating,
                 rc.review,
-                JSON_VALUE(rc.dates,'$.seconds_played')
+                l_time_played,
+                l_release_date,
+                rc.url,
+                rc.giantbomb_id
             ) RETURNING id INTO l_game_id;
 
         END IF;
