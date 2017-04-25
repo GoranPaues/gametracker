@@ -144,33 +144,6 @@
 					</images>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.flywaydb</groupId>
-				<artifactId>flyway-maven-plugin</artifactId>
-				<version>${flyway.version}</version>
-				<!-- Note that we're executing the Flyway
-			                                plugin in the "generate-sources" phase -->
-				<executions>
-					<execution>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>migrate</goal>
-						</goals>
-					</execution>
-				</executions>
-				<!-- Note that we need to prefix the db/migration
-			                                path with filesystem: to prevent Flyway
-			                                from looking for our migration scripts
-			                                only on the classpath -->
-				<configuration>
-					<url>${db.url}</url>
-					<user>${db.username}</user>
-					<password>${db.password}</password>
-					<locations>
-						<location>filesystem:src/main/resources/db/migration</location>
-					</locations>
-				</configuration>
-			</plugin>
 		</plugins>
 		<resources>
 			<resource>
