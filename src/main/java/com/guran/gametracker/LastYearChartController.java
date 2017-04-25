@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/lastyear")
 public class LastYearChartController {
 
-    LastYearChartDAO ldao = new LastYearChartDAO();
+    ChartDataDbDAO dbdao = new ChartDataDbDAO();
 
     // Get platform list
     @RequestMapping(method = RequestMethod.GET)
     public ChartData[] getAll() {
-        return ldao.getChart().toArray(new ChartData[0]);
+        return dbdao.getLastYearChart().toArray(new ChartData[0]);
 
     }
 }

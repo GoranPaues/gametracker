@@ -7,11 +7,10 @@ import java.util.stream.Collectors;
 /**
  * Created by goranpaues on 2017-04-24.
  */
-public class LastYearChartDAO implements ChartDataDAO{
+public class LastYearChartDAO {
 
         private final CopyOnWriteArrayList eList = MockLastYearChart.getInstance();
 
-        @Override
         public List<ChartData> getChart(){
             return eList;
         }

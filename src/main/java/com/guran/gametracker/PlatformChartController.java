@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/platform")
 public class PlatformChartController {
 
-    PlatformChartDAO pdao = new PlatformChartDAO();
+    ChartDataDbDAO dbdao = new ChartDataDbDAO();
 
     // Get platform list
     @RequestMapping(method = RequestMethod.GET)
     public ChartData[] getAll() {
-        return pdao.getChart().toArray(new ChartData[0]);
+        return dbdao.getPlatformChart().toArray(new ChartData[0]);
 
     }
 }

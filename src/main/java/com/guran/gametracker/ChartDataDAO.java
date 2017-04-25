@@ -6,5 +6,7 @@ package com.guran.gametracker;
 import java.util.List;
 
 public interface ChartDataDAO {
-    public List<ChartData> getChart();
+    public List<ChartData> getPlatformChart();
+
+    public List<ChartData> getLastYearChart();
 }
