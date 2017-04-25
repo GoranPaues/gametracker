@@ -51,6 +51,25 @@ public class ChartDataDbDAO implements ChartDataDAO{
 
 
     @Override
+    public List<ChartData> getGenreChart(){
+        String queryStr = "select p.name label, count(*) value from\n" +
+                "genres p\n" +
+                "join genre_list pl on pl.genre_id = p.id\n" +
+                "join games g on g.id = pl.game_id\n" +
+                "where p.name not in ('Linux','Mac','iPhone')\n" +
+                "and pl.game_id not in (select game_id \n" +
+                "                         from shelf_list sl\n" +
+                "                         join shelves s on s.id = sl.shelf_id\n" +
+                "                         where s.name = 'Backlog')\n" +
+                "group by p.name\n" +
+                "having count(*) > 10\n" +
+                "order by count(*)";
+        List<ChartData> resultList = this.query(queryStr);
+        return resultList;
+    }
+
+
+    @Override
     public List<ChartData> getLastYearChart(){
         String queryStr = "select \n" +
                                 "to_char(trunc(date_added,'MONTH'),'yyyymm') label, \n" +

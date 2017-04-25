@@ -9,4 +9,6 @@ public interface ChartDataDAO {
     public List<ChartData> getPlatformChart();
 
     public List<ChartData> getLastYearChart();
+
+    public List<ChartData> getGenreChart();
 }
