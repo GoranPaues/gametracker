@@ -19,7 +19,7 @@
 
                 $.getJSON('/platform', function(data) {
                     var platformChart = new FusionCharts({
-                        type: "pie2d",//type of the chart to be rendered
+                        type: "pie3d",//type of the chart to be rendered
                         id: "platform-chart",//id of the chart - required to refer to the chart
                         width: "300",//width of the chart
                         height: "300",//height of the chart
@@ -65,7 +65,37 @@
                         });
                     lastyearChart.render();
                     });
+
+                $.getJSON('/genre', function(data) {
+                    var genreChart = new FusionCharts({
+                        type: "pie2d",//type of the chart to be rendered
+                        id: "genre-chart",//id of the chart - required to refer to the chart
+                        width: "300",//width of the chart
+                        height: "300",//height of the chart
+                        renderAt: "genreChartContainer",//id of the HTML element where the chart is rendered
+                        dataFormat: "json", //format of the data passed to the dataSource property
+
+                        //chart appearance properties are defined within dataSource.
+                        dataSource: {
+                            "chart":{
+                                "caption":"Games played per genre",
+                                "bgColor":"EEEEEE,CCCCCC",
+                                "bgAlpha":"70,80",
+                                "bgratio":"60,40",
+                                "paletteColors":"#3375c2,#eeaf5d,#ffcc00,#f65b10,#6e4000",
+                                "baseFontSize": "14",
+                                "use3DLighting":"1",
+                                "borderColor":"#EEEEEE",
+                                "borderThickness":"3",
+                                "enableSmartLabels":"1",
+                                "skipOverlapLabels":"0"
+                            },"data": data
+                        },
+                    });
+                    genreChart.render();
                 });
+
+            });
         </script>
         </head>
     <body>
@@ -95,6 +125,11 @@
                     <div class="col-lg-6">
                         <div class="col-lg-12">
                             <div id="lastyearChartContainer">The last year chart will load here!</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="col-lg-12">
+                            <div id="genreChartContainer">The genre chart will load here!</div>
                         </div>
                     </div>
                 </div>
