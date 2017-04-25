@@ -4,15 +4,15 @@
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="description" content="Demo Site for Oracle Meetup 18 April 2017" />
+        <meta name="description" content="Demo Site for Oracle Meetup 25 April 2017" />
         <meta name="author" content="Göran Paues" />
 
-        <title>Demo Site for Oracle Meetup 18 April 2017</title>
+        <title>Demo Site for Oracle Meetup 25 April 2017</title>
 
         <link href="/css/bootstrap.min.css" rel="stylesheet" />
         <link href="/css/demo.css" rel="stylesheet" />
 
-        <script type="text/javascript" src="fusioncharts/fusioncharts.js"></script>
+        <script type="text/javascript" src="/fusioncharts/fusioncharts.js"></script>
         <script type="text/javascript" src="/js/jquery-2.2.2.min.js"></script>
         <script type="text/javascript">
             $(function(){
@@ -20,10 +20,10 @@
                 $.getJSON('/platform', function(data) {
                     var platformChart = new FusionCharts({
                         type: "pie2d",//type of the chart to be rendered
-                        id: "sample-chart",//id of the chart - required to refer to the chart
+                        id: "platform-chart",//id of the chart - required to refer to the chart
                         width: "300",//width of the chart
                         height: "300",//height of the chart
-                        renderAt: "chartContainer",//id of the HTML element where the chart is rendered
+                        renderAt: "platformChartContainer",//id of the HTML element where the chart is rendered
                         dataFormat: "json", //format of the data passed to the dataSource property
 
                         //chart appearance properties are defined within dataSource.
@@ -46,26 +46,35 @@
                     platformChart.render();
                 });
 
-            })
+               $.getJSON('/lastyear', function(data) {
+                    var lastyearChart = new FusionCharts({
+                        type: 'column2d',
+                        renderAt: 'lastyearChartContainer',
+                        width: '400',
+                        height: '300',
+                        dataFormat: 'json',
+                        dataSource: {
+                            "chart": {
+                                "caption": "Games played last twelve months",
+                                "xaxisname": "Month",
+                                "yaxisname": "Games played",
+                                "showvalues": "1",
+                                "animation": "1"
+                            },"data": data
+                            }
+                        });
+                    lastyearChart.render();
+                    });
+                });
         </script>
         </head>
     <body>
         <div class="container">
             <div class="header clearfix">
                 <h3 class="text-muted">Oracle Meetup 25 April 2017<br />
-                    Demo showing how a Spring Boot app <br>
-                    can apply database changes with Flyway.</h3>
+                    Demo showing how Flyway can be used for continuous deployment.</h3>
             </div>
             <div class="row">
-
-                <div class="col-lg-6">
-                    <h4><a href="http://projects.spring.io/spring-boot/">Spring Boot</a></h4>
-                    <blockquote>
-                        <p>
-                            Spring Boot makes it easy to create <strong>stand-alone, production-grade Spring based Applications</strong> that you can "just run". We take an opinionated view of the Spring platform and third-party libraries so you can get started with minimum fuss. Most Spring Boot applications need very little Spring configuration.
-                        </p>
-                    </blockquote>
-                </div>
 
                 <div class="col-lg-6">
                     <h4><a href="http://flywaydb.org">Flyway</a></h4>
@@ -76,9 +85,17 @@
                         </p>
                     </blockquote>
                 </div>
-                <div class="row">
+
+                <div class="col-lg-6">
                     <div class="col-lg-12">
-                        <div id="chartContainer">FusionCharts XT will load here!</div>
+                        <div id="platformChartContainer">The platform chart will load here!</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="col-lg-12">
+                            <div id="lastyearChartContainer">The last year chart will load here!</div>
+                        </div>
                     </div>
                 </div>
 
