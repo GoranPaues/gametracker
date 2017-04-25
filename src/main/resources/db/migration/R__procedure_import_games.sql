@@ -3,6 +3,7 @@ CREATE OR REPLACE PROCEDURE gametracker.import_games AS
     l_game_id          games.id%TYPE;
     l_shelf_id         shelves.id%TYPE;
     l_platform_id      platforms.id%TYPE;
+    l_genre_id         genres.id%TYPE;
     l_time_played      games.time_played%TYPE;
     l_release_date     games.release_date%TYPE;
     l_date_added       DATE;
@@ -11,6 +12,8 @@ CREATE OR REPLACE PROCEDURE gametracker.import_games AS
     l_shelf_obj        json_object_t;
     l_platforms_obj    json_object_t;
     l_platforms_list   json_key_list;
+    l_genres_obj       json_object_t;
+    l_genres_list      json_key_list;
 BEGIN
     FOR rc IN (
         SELECT
@@ -180,6 +183,54 @@ BEGIN
 
         END LOOP;
         /* END PLATFORMS */
+
+        /* MERGE GENRES */
+
+        l_genres_obj := json_object_t(rc.genres);
+        l_genres_list := nvl(
+            l_genres_obj.get_keys,
+            json_key_list()
+        );
+        FOR i IN 1..l_genres_list.count LOOP
+            BEGIN
+                SELECT
+                    id
+                INTO
+                    l_genre_id
+                FROM
+                    genres
+                WHERE
+                    name = l_genres_list(i);
+
+                EXCEPTION
+                WHEN no_data_found THEN
+                INSERT INTO genres ( name ) VALUES ( l_genres_list(i) ) RETURNING id INTO l_genre_id;
+
+            END;
+
+            INSERT INTO genre_list (
+                game_id,
+                genre_id
+            ) SELECT
+                  l_game_id,
+                  l_genre_id
+              FROM
+                  dual
+              WHERE
+                  NOT
+                  EXISTS (
+                      SELECT
+                          1
+                      FROM
+                          genre_list
+                      WHERE
+                          game_id = l_game_id
+                          AND
+                          genre_id = l_genre_id
+                  );
+
+        END LOOP;
+        /* END genres */
 
         /* END GAME INFO */
 
