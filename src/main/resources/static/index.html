@@ -12,23 +12,47 @@
         <link href="/css/bootstrap.min.css" rel="stylesheet" />
         <link href="/css/demo.css" rel="stylesheet" />
 
+        <script type="text/javascript" src="fusioncharts/fusioncharts.js"></script>
         <script type="text/javascript" src="/js/jquery-2.2.2.min.js"></script>
-        <script type="text/javascript" src="/js/ansi_up.js"></script>
+        <script type="text/javascript">
+            $(function(){
 
-        <script>
-            $(document).ready(function () {
-                $.get('/api/banner', function (data) {
-                    $('.banner').each(function () {
-                        $(this).html(ansi_up.ansi_to_html(data));
+                $.getJSON('/platform', function(data) {
+                    var platformChart = new FusionCharts({
+                        type: "pie2d",//type of the chart to be rendered
+                        id: "sample-chart",//id of the chart - required to refer to the chart
+                        width: "300",//width of the chart
+                        height: "300",//height of the chart
+                        renderAt: "chartContainer",//id of the HTML element where the chart is rendered
+                        dataFormat: "json", //format of the data passed to the dataSource property
+
+                        //chart appearance properties are defined within dataSource.
+                        dataSource: {
+                        "chart":{
+                            "caption":"Games per platform",
+                            "bgColor":"EEEEEE,CCCCCC",
+                            "bgAlpha":"70,80",
+                            "bgratio":"60,40",
+                            "paletteColors":"#0075c2,#1aaf5d,#f2c500,#f45b00,#8e0000",
+                            "baseFontSize": "14",
+                            "use3DLighting":"1",
+                            "borderColor":"#EEEEEE",
+                            "borderThickness":"3",
+                            "enableSmartLabels":"1",
+                            "skipOverlapLabels":"0"
+                            },"data": data
+                        },
                     });
+                    platformChart.render();
                 });
-            });
+
+            })
         </script>
-    </head>
+        </head>
     <body>
         <div class="container">
             <div class="header clearfix">
-                <h3 class="text-muted">Oracle Meetup 18 April 2017<br />
+                <h3 class="text-muted">Oracle Meetup 25 April 2017<br />
                     Demo showing how a Spring Boot app <br>
                     can apply database changes with Flyway.</h3>
             </div>
@@ -52,9 +76,13 @@
                         </p>
                     </blockquote>
                 </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div id="chartContainer">FusionCharts XT will load here!</div>
+                    </div>
+                </div>
 
             </div>
-
             <footer class="footer">
                 <p>&copy; 2017 <a href="http://guran.com">Göran Paues</a></p>
             </footer>
